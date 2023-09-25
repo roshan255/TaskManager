@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./components/Card";
 import TaskList from "./components/TaskList";
+import axios from "axios";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -8,6 +9,13 @@ function App() {
   const handleClick = () => {
     setTaskList([...taskList, inputValue]);
   };
+
+  useEffect(() => {
+    axios
+      .get("localhost:5000/api/tasks")
+      .then((res) => setTaskList(res.data.tasks))
+      .catch((err) => console.log(err.message));
+  }, []);
 
   return (
     <div>
