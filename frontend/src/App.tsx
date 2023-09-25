@@ -11,10 +11,10 @@ function App() {
   };
 
   useEffect(() => {
-    axios
-      .get("localhost:5000/api/tasks")
-      .then((res) => setTaskList(res.data.tasks))
-      .catch((err) => console.log(err.message));
+    axios.get("http://localhost:5000/api/tasks").then((res) => {
+      console.log(res.data.tasks);
+      setTaskList(res.data.tasks);
+    });
   }, []);
 
   return (
