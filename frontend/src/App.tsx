@@ -7,7 +7,9 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [taskList, setTaskList] = useState<string[]>([]);
   const [error, setError] = useState("");
-  const handleClick = () => {
+  console.log("hi there");
+
+  const handleCreate = () => {
     if (!inputValue) {
       setError("Enter a task!");
       return;
@@ -23,11 +25,31 @@ function App() {
     setTaskList([...taskList, inputValue]);
   };
 
+  const handleDelete = (delIndex: number) => {
+    axios
+      .delete("http://localhost:5000/api/tasks", {
+        params: { id: delIndex },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+
+    setTaskList(
+      taskList.filter((item, index) => {
+        console.log(`${item} is deleted form the tasks`);
+        return index !== delIndex;
+      })
+    );
+  };
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/tasks").then((res) => {
       setTaskList(res.data.tasks);
     });
-  }, [taskList]);
+  }, [error]);
 
   return (
     <div>
@@ -38,14 +60,14 @@ function App() {
             setInputValue(event.target.value);
           }}
         ></input>
-        <button className="btn btn-primary" onClick={handleClick}>
+        <button className="btn btn-primary" onClick={handleCreate}>
           Add
         </button>
         <p className="text-danger">{error}</p>
       </Card>
       <div>
         Output:
-        <TaskList tasks={taskList} />
+        <TaskList onDelete={handleDelete} tasks={taskList} />
       </div>
     </div>
   );
