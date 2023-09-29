@@ -45,6 +45,10 @@ function App() {
     );
   };
 
+  const handleEdit = (index: number) => {
+    console.log(index);
+  };
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/tasks").then((res) => {
       setTaskList(res.data.tasks);
@@ -67,7 +71,11 @@ function App() {
       </Card>
       <div>
         Output:
-        <TaskList onDelete={handleDelete} tasks={taskList} />
+        <TaskList
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          tasks={taskList}
+        />
       </div>
     </div>
   );
