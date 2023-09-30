@@ -16,7 +16,7 @@ function App() {
     }
 
     axios
-      .post("http://localhost:5000/api/tasks", { task: inputValue })
+      .post("http://localhost:5000/api/v1/tasks", { task: inputValue })
       .then((res) => {
         console.log(res);
         setError("");
@@ -27,7 +27,7 @@ function App() {
 
   const handleDelete = (delIndex: number) => {
     axios
-      .delete("http://localhost:5000/api/tasks", {
+      .delete("http://localhost:5000/api/v1/tasks", {
         params: { id: delIndex },
       })
       .then((res) => {
@@ -50,7 +50,7 @@ function App() {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/tasks").then((res) => {
+    axios.get("http://localhost:5000/api/v1/tasks").then((res) => {
       setTaskList(res.data.tasks);
     });
   }, [error]);
