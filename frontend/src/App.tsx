@@ -27,9 +27,7 @@ function App() {
 
   const handleDelete = (delIndex: number) => {
     axios
-      .delete("http://localhost:5000/api/v1/tasks", {
-        params: { id: delIndex },
-      })
+      .delete(`http://localhost:5000/api/v1/tasks/${delIndex}`)
       .then((res) => {
         console.log(res);
       })
