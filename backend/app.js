@@ -1,5 +1,6 @@
 const express = require("express");
 const tasks = require("./Routes/tasks");
+require("./db/connect");
 const app = express();
 const PORT = 5000;
 

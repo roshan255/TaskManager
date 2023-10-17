@@ -22,12 +22,15 @@ const updateTask = (req, res) => {
 const deleteTask = (req, res) => {
   const id = Number(req.params.id);
   console.log(req.url, req.params);
-  if (id > listOfTask.length)
+  if (id >= listOfTask.length)
     return res
       .status(404)
       .json({ success: false, message: `Item not found for id:${id}` });
+  var deletingTask = listOfTask[id];
   listOfTask = listOfTask.filter((value, index) => index != id);
-  res.status(200).json({ success: true });
+  res
+    .status(200)
+    .json({ success: true, message: `'${deletingTask}' is deleted` });
 };
 
 module.exports = { getTasks, getTask, updateTask, createTask, deleteTask };
