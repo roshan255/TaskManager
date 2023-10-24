@@ -5,7 +5,7 @@ const getTasks = async (req, res) => {
     const taskList = await Task.find({});
     res.status(200).json(
       taskList.map((task) => {
-        return { task: task.task, completed: task.completed, id: task.id };
+        return { id: task.id, task: task.task, completed: task.completed };
       })
     );
   } catch (error) {
@@ -14,10 +14,16 @@ const getTasks = async (req, res) => {
   }
 };
 
-const getTask = (req, res) => {
+const getTask = async (req, res) => {
+  const { id } = req.params;
   try {
-    const task = Task.find({ id: req.params.id });
-    res.status(201).json({ success: true, task: task });
+    const task = await Task.findOne({ _id: id });
+    if (!task) {
+      return res
+        .status(404)
+        .json({ message: `Task can not found on id: ${id}` });
+    }
+    res.status(200).json({ success: true, task: task });
   } catch (error) {
     res.status(500).json({ success: false, message: error });
     console.log(error.message);
@@ -34,18 +40,38 @@ const createTask = async (req, res) => {
   }
 };
 
-const updateTask = (req, res) => {
-  res.send("updating task");
+const updateTask = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedTask = await Task.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updatedTask) {
+      return res
+        .status(404)
+        .json({ message: `Task can not found on id: ${id}` });
+    }
+    res.status(201).json({ success: true, task: updatedTask });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error });
+    console.log(error);
+  }
 };
 
 const deleteTask = async (req, res) => {
   const id = req.params.id;
   try {
-    const deletedTask = await Task.deleteOne({ _id: id });
-    res.status(200).json({ success: true, deletedTask: deletedTask });
+    const deletedTask = await Task.findOneAndDelete({ _id: id });
+    if (!deletedTask) {
+      return res
+        .status(404)
+        .json({ message: `Task can not found on id: ${id}` });
+    }
+    res.status(200).json({ success: true, deletedTask });
   } catch (error) {
     console.log(error.message);
-    res.status(404).json({ success: false, message: error });
+    res.status(500).json({ success: false, message: error });
   }
 };
 
