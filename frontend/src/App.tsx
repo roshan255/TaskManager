@@ -3,11 +3,16 @@ import Card from "./components/Card";
 import TaskList from "./components/TaskList";
 import axios from "axios";
 
+export interface taskData {
+  id: string;
+  task: string;
+  completed: Boolean;
+}
+
 function App() {
   const [inputValue, setInputValue] = useState("");
-  const [taskList, setTaskList] = useState<string[]>([]);
+  const [taskList, setTaskList] = useState<taskData[]>([]);
   const [error, setError] = useState("");
-  console.log("hi there");
 
   const handleCreate = () => {
     if (!inputValue) {
@@ -22,12 +27,12 @@ function App() {
         setError("");
       })
       .catch((err) => setError(err.message));
-    setTaskList([...taskList, inputValue]);
+    handleGetTasks();
   };
 
-  const handleDelete = (delIndex: number) => {
+  const handleDelete = (delId: string) => {
     axios
-      .delete(`http://localhost:5000/api/v1/tasks/${delIndex}`)
+      .delete(`http://localhost:5000/api/v1/tasks/${delId}`)
       .then((res) => {
         console.log(res);
       })
@@ -36,21 +41,28 @@ function App() {
       });
 
     setTaskList(
-      taskList.filter((item, index) => {
+      taskList.filter((item) => {
         console.log(`${item} is deleted form the tasks`);
-        return index !== delIndex;
+        return item.id !== delId;
       })
     );
   };
 
-  const handleEdit = (index: number) => {
-    console.log(index);
+  const handleEdit = (Id: string) => {
+    console.log(Id);
+    console.log(taskList);
+  };
+
+  const handleGetTasks = () => {
+    return axios
+      .get<taskData[]>("http://localhost:5000/api/v1/tasks")
+      .then((res) => {
+        setTaskList(res.data);
+      });
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/v1/tasks").then((res) => {
-      setTaskList(res.data.tasks);
-    });
+    handleGetTasks();
   }, [error]);
 
   return (
@@ -72,7 +84,7 @@ function App() {
         <TaskList
           onDelete={handleDelete}
           onEdit={handleEdit}
-          tasks={taskList}
+          taskList={taskList}
         />
       </div>
     </div>

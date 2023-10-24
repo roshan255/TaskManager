@@ -1,23 +1,23 @@
+import { taskData } from "../App.tsx";
+
 interface Props {
-  tasks: string[];
-  onDelete: (index: number) => void;
-  onEdit: (index: number) => void;
+  taskList: taskData[];
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-function TaskList({ tasks, onDelete, onEdit }: Props) {
+function TaskList({ taskList, onDelete, onEdit }: Props) {
   return (
     <ol>
-      {tasks.map((task, index) => (
-        <li key={index}>
-          <div>
-            <h4>{task}</h4>
-            <button className="btn btn-secondary" onClick={() => onEdit(index)}>
-              Edit
-            </button>
-            <button className="btn btn-danger" onClick={() => onDelete(index)}>
-              delete
-            </button>
-          </div>
+      {taskList.map((task) => (
+        <li key={task.id}>
+          <h4>{task.task}</h4>
+          <button className="btn btn-secondary" onClick={() => onEdit(task.id)}>
+            Edit
+          </button>
+          <button className="btn btn-danger" onClick={() => onDelete(task.id)}>
+            delete
+          </button>
         </li>
       ))}
     </ol>
