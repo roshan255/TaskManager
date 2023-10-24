@@ -14,7 +14,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/v1/tasks", tasks);
+const logger = (req, res, next) => {
+  console.log(req.method, req.url);
+  next();
+};
+
+app.use("/api/v1/tasks", logger, tasks);
 
 app.get("/", (req, res) => {
   res.send("<h2>Server is running..<h2>");
