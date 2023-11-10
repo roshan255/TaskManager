@@ -8,30 +8,35 @@ interface Props {
 
 function TaskList({ taskList, onDelete, onEdit }: Props) {
   return (
-    <ol className="list-group">
+    <div>
       {taskList.map((task) => (
-        <li
-          className="list-group-item d-flex align-items justify-content-between"
-          key={task.id}
+        <div
+          className="card shadow-lg mb-3 bg-body-tertiary rounded"
+          style={{ width: 550 }}
         >
-          <h4 className="pe-2">{task.task}</h4>
-          <div>
-            <button
-              className="btn btn-secondary me-2"
-              onClick={() => onEdit(task.id)}
-            >
-              Edit
-            </button>
-            <button
-              className="btn btn-danger"
-              onClick={() => onDelete(task.id)}
-            >
-              delete
-            </button>
+          <div
+            className="d-flex justify-content-between card-body"
+            key={task.id}
+          >
+            <h4 className="pe-2">{task.task}</h4>
+            <div>
+              <button
+                className="btn btn-secondary me-2"
+                onClick={() => onEdit(task.id)}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-danger"
+                onClick={() => onDelete(task.id)}
+              >
+                delete
+              </button>
+            </div>
           </div>
-        </li>
+        </div>
       ))}
-    </ol>
+    </div>
   );
 }
 
