@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import taskServices from "../services/task-services";
 
 export interface taskData {
@@ -10,6 +10,7 @@ export interface taskData {
 const useTask = () => {
   const [taskList, setTaskList] = useState<taskData[]>([]);
   const [error, setError] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const handleGetTasks = () => {
     taskServices
@@ -20,7 +21,7 @@ const useTask = () => {
       .catch((err) => setError(err.message));
   };
 
-  const handleCreate = async (inputValue: string) => {
+  const handleCreate = async () => {
     if (!inputValue) {
       setError("Enter a task!");
       return;
@@ -33,6 +34,7 @@ const useTask = () => {
         setError("");
       })
       .catch((err) => setError(err.message));
+    setInputValue("");
     handleGetTasks();
   };
 
@@ -53,13 +55,20 @@ const useTask = () => {
     console.log(taskList);
   };
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setError("");
+    setInputValue(event.target.value);
+  };
+
   useEffect(() => {
     handleGetTasks();
   }, []);
 
   return {
+    inputValue,
     taskList,
     error,
+    handleChange,
     handleCreate,
     handleDelete,
     handleEdit,
