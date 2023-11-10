@@ -4,12 +4,20 @@ import taskServices from "../services/task-services";
 export interface taskData {
   id: string;
   task: string;
-  completed: Boolean;
+  completed: boolean;
+}
+
+interface RequestStatus {
+  errorMessage: string;
+  successMessage: string;
 }
 
 const useTask = () => {
   const [taskList, setTaskList] = useState<taskData[]>([]);
-  const [error, setError] = useState("");
+  const [reqStatus, setReqStatus] = useState<RequestStatus>({
+    errorMessage: "",
+    successMessage: "",
+  });
   const [inputValue, setInputValue] = useState("");
 
   const handleGetTasks = () => {
@@ -18,12 +26,12 @@ const useTask = () => {
       .then((res) => {
         setTaskList(res.data);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setReqStatus(err.message));
   };
 
   const handleCreate = async () => {
     if (!inputValue) {
-      setError("Enter a task!");
+      setReqStatus({ ...reqStatus, errorMessage: "Enter a task!" });
       return;
     }
 
@@ -31,9 +39,14 @@ const useTask = () => {
       .createTask(inputValue)
       .then((res) => {
         console.log(res);
-        setError("");
+        setReqStatus({
+          successMessage: "Successfully created!!",
+          errorMessage: "",
+        });
       })
-      .catch((err) => setError(err.message));
+      .catch((err) =>
+        setReqStatus({ successMessage: "", errorMessage: err.message })
+      );
     setInputValue("");
     handleGetTasks();
   };
@@ -43,9 +56,13 @@ const useTask = () => {
       .deleteTask(delId)
       .then((res) => {
         console.log(res);
+        setReqStatus({
+          successMessage: "Successfully deleted!!",
+          errorMessage: "",
+        });
       })
       .catch((err) => {
-        setError(err.message);
+        setReqStatus({ successMessage: "", errorMessage: err.message });
       });
     handleGetTasks();
   };
@@ -56,7 +73,7 @@ const useTask = () => {
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setError("");
+    setReqStatus({ successMessage: "", errorMessage: "" });
     setInputValue(event.target.value);
   };
 
@@ -67,7 +84,7 @@ const useTask = () => {
   return {
     inputValue,
     taskList,
-    error,
+    reqStatus,
     handleChange,
     handleCreate,
     handleDelete,

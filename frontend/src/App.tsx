@@ -6,7 +6,7 @@ function App() {
   const {
     inputValue,
     taskList,
-    error,
+    reqStatus,
     handleChange,
     handleCreate,
     handleDelete,
@@ -24,7 +24,8 @@ function App() {
         <button className="btn btn-primary" onClick={handleCreate}>
           Add
         </button>
-        <p className="text-danger">{error}</p>
+        <p className="text-danger">{reqStatus.errorMessage}</p>
+        <p className="text-success">{reqStatus.successMessage}</p>
       </Card>
       <div>
         Output:
