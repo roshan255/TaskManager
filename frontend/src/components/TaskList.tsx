@@ -1,4 +1,5 @@
 import { taskData } from "../hooks/useTask";
+import { Link } from "react-router-dom";
 
 interface Props {
   taskList: taskData[];
@@ -12,20 +13,15 @@ function TaskList({ taskList, onDelete, onEdit }: Props) {
       {taskList.map((task) => (
         <div
           className="card shadow-lg mb-3 bg-body-tertiary rounded"
-          style={{ width: 550 }}
+          style={{ width: 500 }}
+          key={task.id}
         >
-          <div
-            className="d-flex justify-content-between card-body"
-            key={task.id}
-          >
+          <div className="d-flex justify-content-between card-body">
             <h4 className="pe-2">{task.task}</h4>
             <div>
-              <button
-                className="btn btn-secondary me-2"
-                onClick={() => onEdit(task.id)}
-              >
-                Edit
-              </button>
+              <Link to={`/edit/${task.id}`} className="btn btn-secondary me-2">
+                edit
+              </Link>
               <button
                 className="btn btn-danger"
                 onClick={() => onDelete(task.id)}
