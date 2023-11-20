@@ -1,28 +1,24 @@
-import { useEffect, useState } from "react";
 import Card from "../components/Card";
-import apiClient from "../services/api-client";
 import { useParams } from "react-router-dom";
+import useEdit from "../hooks/useEdit";
 
 function Edit() {
-  const [task, setTask] = useState("");
-  const [isCompleted, setIsCompleted] = useState(false);
   const params = useParams();
-  useEffect(() => {
-    apiClient
-      .get(`/${params.id}`)
-      .then((res) => {
-        setTask(res.data.task.task);
-        setIsCompleted(res.data.task.completed);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const { task, isCompleted, setTask, setIsCompleted } = useEdit(
+    params.id ? params.id : ""
+  );
+
   return (
     <div>
       <Card cardName="Edit task">
         <p>Id : {params.id}</p>
-        <input placeholder={task} className="form-control"></input>
+        <input
+          placeholder={task}
+          className="form-control"
+          onChange={(event) => {
+            setTask(event.target.value);
+          }}
+        ></input>
         <div className="form-check form-switch mt-2 mb-2">
           <input
             className="form-check-input"
@@ -35,7 +31,10 @@ function Edit() {
             Completed task
           </label>
           <div style={{ float: "right" }}>
-            <button className="btn btn-primary" onClick={() => console.log()}>
+            <button
+              className="btn btn-primary"
+              onClick={() => console.log(task, isCompleted)}
+            >
               submit
             </button>
           </div>

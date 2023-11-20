@@ -5,6 +5,10 @@ class TaskServices {
     return apiClient.get("/");
   }
 
+  getOne(id: string) {
+    return apiClient.get(`${id}`);
+  }
+
   createTask(inputValue: string) {
     return apiClient.post("/", { task: inputValue });
   }
