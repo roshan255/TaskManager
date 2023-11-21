@@ -15,10 +15,21 @@ function useEdit(id: string) {
       .catch((err) => console.log(err));
   };
 
+  const handleEdit = (id: string, task: string, isCompleted: boolean) => {
+    taskServices
+      .updateTask(id, task, isCompleted)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     handleGetTask(id);
   }, []);
-  return { task, isCompleted, setTask, setIsCompleted };
+  return { task, isCompleted, setTask, setIsCompleted, handleEdit };
 }
 
 export default useEdit;

@@ -3,17 +3,18 @@ import { useParams } from "react-router-dom";
 import useEdit from "../hooks/useEdit";
 
 function Edit() {
-  const params = useParams();
-  const { task, isCompleted, setTask, setIsCompleted } = useEdit(
-    params.id ? params.id : ""
+  const { id } = useParams();
+  const { task, isCompleted, setTask, setIsCompleted, handleEdit } = useEdit(
+    id ? id : ""
   );
 
   return (
     <div>
       <Card cardName="Edit task">
-        <p>Id : {params.id}</p>
+        <p>Id : {id}</p>
         <input
           placeholder={task}
+          value={task}
           className="form-control"
           onChange={(event) => {
             setTask(event.target.value);
@@ -33,7 +34,11 @@ function Edit() {
           <div style={{ float: "right" }}>
             <button
               className="btn btn-primary"
-              onClick={() => console.log(task, isCompleted)}
+              onClick={() => {
+                handleEdit(id ? id : "", task, isCompleted);
+                console.log(task, isCompleted);
+                setTask("");
+              }}
             >
               submit
             </button>

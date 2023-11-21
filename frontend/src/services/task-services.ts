@@ -13,6 +13,10 @@ class TaskServices {
     return apiClient.post("/", { task: inputValue });
   }
 
+  updateTask(upId: string, task: string, isCompleted: boolean) {
+    return apiClient.patch(`/${upId}`, { task: task, completed: isCompleted });
+  }
+
   deleteTask(delId: string) {
     return apiClient.delete(`/${delId}`);
   }
