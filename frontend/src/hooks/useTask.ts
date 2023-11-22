@@ -67,11 +67,6 @@ const useTask = () => {
     handleGetTasks();
   };
 
-  const handleEdit = (Id: string) => {
-    console.log(Id);
-    console.log(taskList);
-  };
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setReqStatus({ successMessage: "", errorMessage: "" });
     setInputValue(event.target.value);
@@ -88,7 +83,6 @@ const useTask = () => {
     handleChange,
     handleCreate,
     handleDelete,
-    handleEdit,
   };
 };
 

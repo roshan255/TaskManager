@@ -10,7 +10,6 @@ function App() {
     handleChange,
     handleCreate,
     handleDelete,
-    handleEdit,
   } = useTask();
 
   return (
@@ -32,11 +31,7 @@ function App() {
       </Card>
 
       <div className="d-flex justify-content-center">
-        <TaskList
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          taskList={taskList}
-        />
+        <TaskList onDelete={handleDelete} taskList={taskList} />
       </div>
     </div>
   );

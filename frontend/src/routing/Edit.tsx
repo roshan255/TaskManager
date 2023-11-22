@@ -1,5 +1,5 @@
 import Card from "../components/Card";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useEdit from "../hooks/useEdit";
 
 function Edit() {
@@ -45,6 +45,11 @@ function Edit() {
           </div>
         </div>
       </Card>
+      <div className="d-flex justify-content-center m-5">
+        <Link to="/" className="btn btn-dark">
+          Go to tasks
+        </Link>
+      </div>
     </div>
   );
 }

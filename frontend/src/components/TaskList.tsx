@@ -1,13 +1,12 @@
 import { taskData } from "../hooks/useTask";
 import { Link } from "react-router-dom";
-
+import { FaTrash, FaRegCircleCheck, FaPenToSquare } from "react-icons/fa6";
 interface Props {
   taskList: taskData[];
   onDelete: (id: string) => void;
-  onEdit: (id: string) => void;
 }
 
-function TaskList({ taskList, onDelete, onEdit }: Props) {
+function TaskList({ taskList, onDelete }: Props) {
   return (
     <div>
       {taskList.map((task) => (
@@ -17,16 +16,20 @@ function TaskList({ taskList, onDelete, onEdit }: Props) {
           key={task.id}
         >
           <div className="d-flex justify-content-between card-body">
-            <h4 className="pe-2">{task.task}</h4>
+            <h4 className="pe-2">
+              {task.completed ? (
+                <FaRegCircleCheck className="text-success pe-2" />
+              ) : (
+                ""
+              )}
+              {task.task}
+            </h4>
             <div>
-              <Link to={`/edit/${task.id}`} className="btn btn-secondary me-2">
-                edit
+              <Link to={`/edit/${task.id}`} className="btn">
+                <FaPenToSquare className="text-secondary" />
               </Link>
-              <button
-                className="btn btn-danger"
-                onClick={() => onDelete(task.id)}
-              >
-                delete
+              <button className="btn" onClick={() => onDelete(task.id)}>
+                <FaTrash className="text-danger" />
               </button>
             </div>
           </div>
