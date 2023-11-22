@@ -16,13 +16,15 @@ function TaskList({ taskList, onDelete }: Props) {
           key={task.id}
         >
           <div className="d-flex justify-content-between card-body">
-            <h4 className="pe-2">
+            <h4>
               {task.completed ? (
-                <FaRegCircleCheck className="text-success pe-2" />
+                <>
+                  <FaRegCircleCheck className="text-success pe-2" />
+                  <s>{task.task}</s>
+                </>
               ) : (
-                ""
+                <h4>{task.task}</h4>
               )}
-              {task.task}
             </h4>
             <div>
               <Link to={`/edit/${task.id}`} className="btn">
