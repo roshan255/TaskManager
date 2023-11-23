@@ -4,6 +4,9 @@ const connectDB = require("./db/connect");
 require("dotenv").config();
 const app = express();
 const PORT = 5000;
+const notFound = require("./middleware/not-found");
+const logger = require("./middleware/logger");
+const errorHandler = require("./middleware/error-handler");
 
 app.use(express.json());
 
@@ -14,16 +17,15 @@ app.use((req, res, next) => {
   next();
 });
 
-const logger = (req, res, next) => {
-  console.log(req.method, req.url);
-  next();
-};
-
 app.use("/api/v1/tasks", logger, tasks);
 
 app.get("/", (req, res) => {
   res.send("<h2>Server is running..<h2>");
 });
+
+app.use(notFound);
+
+app.use(errorHandler);
 
 const start = async () => {
   try {

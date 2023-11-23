@@ -23,7 +23,7 @@ function TaskList({ taskList, onDelete }: Props) {
                   <s>{task.task}</s>
                 </>
               ) : (
-                <h4>{task.task}</h4>
+                task.task
               )}
             </h4>
             <div>
